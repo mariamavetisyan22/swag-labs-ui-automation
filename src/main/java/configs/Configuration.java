@@ -38,19 +38,19 @@ public class Configuration {
     @Getter
     public static String PASSWORD;
     @Getter
-    private static String WEB_URL;
+    private static String webUrl;
 
     @SneakyThrows
     public static void loadPropertyFile() {
         try (InputStream inputStream = Files.newInputStream(Paths.get(WEB_PROP_PATH))) {
             properties.load(inputStream);
-            WEB_URL = properties.getProperty("demo.url");
+            webUrl = properties.getProperty("demo.url");
             STANDARD_USERNAME = properties.getProperty("standard.username");
             LOCKED_OUT_USERNAME = properties.getProperty("locked.out.username");
-            LOCKED_OUT_USERNAME = properties.getProperty("problem.username");
-            LOCKED_OUT_USERNAME = properties.getProperty("performance.username");
-            LOCKED_OUT_USERNAME = properties.getProperty("error.username");
-            LOCKED_OUT_USERNAME = properties.getProperty("visual.username");
+            PROBLEM_USERNAME = properties.getProperty("problem.username");
+            PERFORMANCE_USERNAME = properties.getProperty("performance.username");
+            ERROR_USERNAME = properties.getProperty("error.username");
+            VISUAL_USERNAME = properties.getProperty("visual.username");
             PASSWORD = properties.getProperty("password");
         } catch (IOException e) {
             throw new RuntimeException("Failed to load properties file", e);

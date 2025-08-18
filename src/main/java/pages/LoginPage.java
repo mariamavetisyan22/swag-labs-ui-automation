@@ -46,4 +46,8 @@ public class LoginPage {
     public String getLockedOutUserErrorMessage() {
         return baseUtils.getText(lockedOutUserErrorMessage);
     }
+
+    public boolean isOnProductsPage() {
+        return driver.getCurrentUrl().contains("inventory.html");
+    }
 }

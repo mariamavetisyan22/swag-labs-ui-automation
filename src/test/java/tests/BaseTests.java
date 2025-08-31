@@ -41,7 +41,7 @@ public class BaseTests {
                 break;
             default:
                 ChromeOptions chromeOptions = new ChromeOptions();
-//                chromeOptions.addArguments("--headless");
+                chromeOptions.addArguments("--headless");
                 chromeOptions.addArguments("--no-sandbox");
                 chromeOptions.addArguments("--disable-dev-shm-usage");
                 chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);

@@ -47,7 +47,7 @@ public class ProductsPageSteps {
                     baseUtils.waitForPresence(errorElement);
                     return true;
                 } catch (TimeoutException e) {
-                    String buttonText = baseUtils.getText(addToCartButtons.getFirst());
+                    String buttonText = baseUtils.getText(addToCartButtons.get(0));
                     return !buttonText.toLowerCase().contains("remove");
                 }
             }

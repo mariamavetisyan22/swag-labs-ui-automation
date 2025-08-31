@@ -50,18 +50,38 @@ public class LoginTests extends BaseTests {
 
     @Test(description = "SLT - 004 / Verify login with performance_glitch_user", groups = {"login"})
     public void verifyLoginWithPerformanceGlitchUser() {
-        long startTime = System.currentTimeMillis();
-
+        final long startTime = System.currentTimeMillis();
         loginSteps.loginWithValidCredentials(Configuration.PERFORMANCE_USERNAME, Configuration.PASSWORD);
 
-        long endTime = System.currentTimeMillis();
-
-        long loginDuration = endTime - startTime;
+        final long endTime = System.currentTimeMillis();
+        final long loginDuration = endTime - startTime;
 
         Assert.assertTrue(loginPage.isOnProductsPage(), "User should be redirected to products page after login");
         Assert.assertEquals(productsPage.getSectionTitle(), "Products");
 
         Assert.assertTrue(loginDuration > 5000,
                 "Performance glitch user should experience significant delay. Actual time: " + loginDuration + "ms");
+    }
+
+    @Test(description = "SLT - 005 / Verify login with error_user", groups = {"login"})
+    public void verifyLoginWithErrorUser() {
+        loginSteps.loginWithValidCredentials(Configuration.ERROR_USERNAME, Configuration.PASSWORD);
+
+        Assert.assertTrue(loginPage.isOnProductsPage(), "User should be redirected to products page after login");
+        Assert.assertEquals(productsPage.getSectionTitle(), "Products");
+
+        Assert.assertTrue(productsPageSteps.validateProductInteractionErrors(),
+                "Error user should experience errors when interacting with products");
+    }
+
+    @Test(description = "SLT - 006 / Verify login with visual_user", groups = {"login"})
+    public void verifyLoginWithVisualUser() {
+        loginSteps.loginWithValidCredentials(Configuration.VISUAL_USERNAME, Configuration.PASSWORD);
+
+        Assert.assertTrue(loginPage.isOnProductsPage(), "User should be redirected to products page after login");
+        Assert.assertEquals(productsPage.getSectionTitle(), "Products");
+
+        Assert.assertTrue(productsPageSteps.validateVisualAnomalies(),
+                "Visual user should experience visual anomalies or UI inconsistencies");
     }
 }

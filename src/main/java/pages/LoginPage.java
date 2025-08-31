@@ -12,15 +12,14 @@ public class LoginPage {
 
     @FindBy(id = "user-name")
     private WebElement username;
-
     @FindBy(id = "password")
     private WebElement password;
-
     @FindBy(id = "login-button")
     private WebElement loginButton;
-
     @FindBy(className = "error-message-container")
     private WebElement lockedOutUserErrorMessage;
+    @FindBy(className = "login_wrapper")
+    private WebElement loginForm;
 
     public LoginPage(final WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -49,5 +48,17 @@ public class LoginPage {
 
     public boolean isOnProductsPage() {
         return driver.getCurrentUrl().contains("inventory.html");
+    }
+
+    public boolean isOnLoginPage() {
+        return driver.getCurrentUrl().equals("https://www.saucedemo.com/");
+    }
+
+    public boolean isLoginFormVisible() {
+        try {
+            return loginForm.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

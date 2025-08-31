@@ -1,6 +1,8 @@
 package utils;
 
 import java.time.Duration;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -35,5 +37,9 @@ public class BaseUtils {
 
     public void wait(final WebElement element) {
         wait.until(ExpectedConditions.visibilityOfAllElements(element));
+    }
+
+    public void waitForPresence(final WebElement element) {
+        wait.until(ExpectedConditions.presenceOfElementLocated((By) element));
     }
 }

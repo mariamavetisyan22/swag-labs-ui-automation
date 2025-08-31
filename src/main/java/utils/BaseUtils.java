@@ -32,4 +32,8 @@ public class BaseUtils {
         wait.until(ExpectedConditions.elementToBeClickable(element));
         element.sendKeys(text);
     }
+
+    public void wait(final WebElement element) {
+        wait.until(ExpectedConditions.visibilityOfAllElements(element));
+    }
 }

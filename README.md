@@ -1,180 +1,116 @@
 # Swag Labs UI Automation
 
-A comprehensive UI automation test suite for the [Swag Labs demo website](https://www.saucedemo.com/) built with Selenium WebDriver, Java, and TestNG.
+Swag Labs UI Automation is a Java-based Selenium WebDriver test automation framework for testing the SauceDemo e-commerce site (https://www.saucedemo.com/). The project uses Maven for build management, TestNG for test execution, and Allure for test reporting.
 
-## Table of Contents
+## Critical Setup
 
-- [Project Overview](#project-overview)
-- [Prerequisites](#prerequisites)
-- [Setup](#setup)
-- [Project Structure](#project-structure)
-- [Configuration](#configuration)
-- [Running Tests](#running-tests)
-- [Reporting](#reporting)
-- [Contributing](#contributing)
+- Java: **Java 21 is required**. The project is compiled/targeted to Java 21.
+  - Install: `sudo apt update && sudo apt install -y openjdk-21-jdk`
+  - Configure alternatives: `sudo update-alternatives --config java` (select Java 21)
+  - Set JAVA_HOME: `export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64`
+  - Verify: `java -version` (should show 21.x)
 
-## Project Overview
+- Maven: use your system Maven (project tested with Maven 3.9.x).
 
-This project provides automated testing capabilities for the Swag Labs e-commerce demo application. The test framework is built using:
+## Key Versions (from pom.xml)
+- Selenium: 4.31.0
+- TestNG: 7.11.0
+- Allure Maven Plugin: 2.24.0
+- Java source/target: 21
 
-- **Java 17+** - Programming language
-- **Selenium WebDriver 4.31.0** - Browser automation
-- **TestNG 7.11.0** - Test framework
-- **Maven** - Build and dependency management
-- **Allure 2.24.0** - Test reporting
-- **Lombok** - Reducing boilerplate code
+## Build & Test (run from project root)
+Ensure JAVA_HOME points to Java 21 before running any mvn command.
 
-## Prerequisites
+Basic commands:
+- Set Java env:
+  export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 
-Before running the tests, ensure you have the following installed:
+- Clean:
+  mvn clean
 
-- **Java Development Kit (JDK) 17 or higher**
-- **Apache Maven 3.6+**
-- **Web browsers** (Chrome, Firefox, Edge, or Safari)
-- **Git** (for cloning the repository)
+- Compile:
+  mvn clean compile
 
-### Verify Installation
+- Test compile:
+  mvn clean test-compile
 
-```bash
-java -version
-mvn -version
-```
+- Run tests:
+  mvn test
 
-## Setup
+- Full cycle:
+  mvn clean compile test
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/mariamavetisyan22/swag-labs-ui-automation.git
-   cd swag-labs-ui-automation
-   ```
+- Generate Allure report:
+  mvn allure:report
 
-2. **Install dependencies:**
-   ```bash
-   mvn clean install
-   ```
+- Serve Allure report:
+  mvn allure:serve
 
-3. **Verify setup:**
-   ```bash
-   mvn clean compile
-   ```
+## Browser configuration
+- Default browser: Chrome (override with `-Dbrowser=chrome|firefox|edge|safari`).
+- Example: `mvn test -Dbrowser=firefox`
+- Browser drivers are managed automatically (Selenium Manager).
 
-## Project Structure
-
-```
-swag-labs-ui-automation/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   ├── configs/
-│   │   │   │   └── Configuration.java      # Test configuration management
-│   │   │   └── utils/
-│   │   │       └── BaseUtils.java          # Common Selenium utilities
-│   │   └── resources/
-│   │       └── configs/
-│   │           └── demo.properties         # Test data and configuration
-│   └── test/
-│       └── java/
-│           └── tests/
-│               └── BaseTests.java          # Base test class
-├── pom.xml                                 # Maven configuration
-├── .gitignore                             # Git ignore rules
-└── README.md                              # This file
-```
-
-### Key Components
-
-- **Configuration.java**: Manages browser settings, environment properties, and test data loading
-- **BaseUtils.java**: Provides reusable Selenium methods for common actions (click, sendText, getText)
-- **demo.properties**: Contains test usernames, passwords, and application URLs
-- **BaseTests.java**: Foundation class for all test cases
-
-## Configuration
-
-### Browser Configuration
-
-The framework supports multiple browsers. Set the browser using system properties:
-
-```bash
-# Chrome (default)
-mvn test
-
-# Firefox
-mvn test -Dbrowser=firefox
-
-# Edge
-mvn test -Dbrowser=edge
-
-# Safari
-mvn test -Dbrowser=safari
-```
-
-### Test Data
-
-Test credentials and URLs are configured in `src/main/resources/configs/demo.properties`:
-
-```properties
-standard.username=standard_user
-locked.out.username=locked_out_user
-problem.username=problem_user
-performance.username=performance_glitch_user
-error.username=error_user
-visual.username=visual_user
-
-demo.url=https://www.saucedemo.com/
-```
-
-### Environment Variables
-
-| Property | Description | Default |
-|----------|-------------|---------|
-| `browser` | Browser to use for testing | `chrome` |
-
-## Running Tests
-
-### Basic Test Execution
-
-```bash
-# Run all tests
-mvn test
-
-# Run tests with specific browser
-mvn test -Dbrowser=firefox
-
-# Run with Maven Surefire plugin
-mvn surefire:test
-```
-
-### Test Compilation
-
-```bash
-# Compile main and test sources
-mvn compile test-compile
-
-# Clean and compile
-mvn clean compile
-```
+## Test accounts
+Test credentials are defined in src/main/resources/configs/demo.properties:
+- standard_user / secret_sauce
+- locked_out_user
+- problem_user
+- performance_glitch_user
+- error_user
+- visual_user
 
 ## Reporting
+- Allure results: `target/allure-results/`
+- Allure report: `target/site/allure-maven-plugin/index.html`
+- Surefire reports: `target/surefire-reports/`
 
-The project uses Allure for comprehensive test reporting.
+## Notes & Troubleshooting
+- If you see "invalid target release: 21", ensure Java 21 is active (check JAVA_HOME and java -version).
+- For CI/headless environments, use ChromeOptions with `--headless --no-sandbox --disable-dev-shm-usage`.
+- First-time runs may download dependencies and Allure; allow extra time.
 
-### Generate Allure Reports
+## Fix: errors when running tests from the terminal
 
-```bash
-# Run tests and generate Allure results
-mvn test
+Common causes and quick fixes:
 
-# Generate and serve Allure report
-mvn allure:serve
+1. Java version mismatch
+   - Ensure Java 21 is active:
+     export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+     java -version   # must show 21.x
 
-# Generate static Allure report
-mvn allure:report
-```
+2. Maven/TestNG discovery
+   - Ensure your test classes match Surefire default patterns (e.g. *Test, *Tests, *TestCase) or place a `testng.xml` at the project root and run `mvn test -Dsurefire.suiteXmlFiles=testng.xml`.
+   - Example run:
+     mvn clean test -Dbrowser=chrome
 
-### Accessing Reports
+3. Known Configuration.java bug (affects credentials loading)
+   - Symptom: tests fail due to incorrect username values (all set to locked_out_user).
+   - Fix: update Configuration.java so each username variable reads its own property key instead of using the locked-out key for all. Example correction (illustrative — edit src/main/java/configs/Configuration.java):
 
-- **Allure results**: `target/allure-results/`
-- **Allure reports**: `target/site/allure-maven-plugin/`
+   ```java
+   // illustrative snippet to fix username assignments
+   // ensure you replace the incorrect lines with the following:
+   STANDARD_USERNAME = properties.getProperty("standard_user");
+   LOCKED_OUT_USERNAME = properties.getProperty("locked_out_user");
+   PROBLEM_USERNAME = properties.getProperty("problem_user");
+   PERFORMANCE_GLITCH_USERNAME = properties.getProperty("performance_glitch_user");
+   // ...other property reads...
+   ```
+
+4. Run full validation
+   export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+   mvn clean compile test
+
+5. If Allure report is needed after tests:
+   mvn allure:report
+   mvn allure:serve
+
+## Project structure
+- src/main/java/configs/Configuration.java
+- src/main/java/utils/BaseUtils.java
+- src/main/resources/configs/demo.properties
+- test classes under src/test/java/
 
 ## Available Test Users
 

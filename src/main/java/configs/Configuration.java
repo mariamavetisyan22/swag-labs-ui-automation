@@ -45,12 +45,12 @@ public class Configuration {
         try (InputStream inputStream = Files.newInputStream(Paths.get(WEB_PROP_PATH))) {
             properties.load(inputStream);
             webUrl = properties.getProperty("demo.url");
-            STANDARD_USERNAME = properties.getProperty("standard.username");
-            LOCKED_OUT_USERNAME = properties.getProperty("locked.out.username");
-            PROBLEM_USERNAME = properties.getProperty("problem.username");
-            PERFORMANCE_USERNAME = properties.getProperty("performance.username");
-            ERROR_USERNAME = properties.getProperty("error.username");
-            VISUAL_USERNAME = properties.getProperty("visual.username");
+            STANDARD_USERNAME = properties.getProperty("standard_user");
+            LOCKED_OUT_USERNAME = properties.getProperty("locked_out_user");
+            PROBLEM_USERNAME = properties.getProperty("problem_user");
+            PERFORMANCE_USERNAME = properties.getProperty("performance_glitch_user");
+            ERROR_USERNAME = properties.getProperty("error_user");
+            VISUAL_USERNAME = properties.getProperty("visual_user");
             PASSWORD = properties.getProperty("password");
         } catch (IOException e) {
             throw new RuntimeException("Failed to load properties file", e);
